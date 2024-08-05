@@ -3,23 +3,47 @@ import { ImTelegram } from "react-icons/im";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { RiPencilLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { authFailure, authStart, authSuccess } from "../redux/slice/authSlice";
+import toast from "react-hot-toast";
+import service from "../config/service";
 
-export default function Verify() {
-    const { isLoading, isLoggedIn } = useSelector(state => state.auth);
+export default function Verify({ setVerifyModal, newAuth }) {
+    const { isLoading, isLoggedIn, isError } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [code, setCode] = useState("");
 
-    const handleLogin = async (e) => {
+    const handleVerify = async (e) => {
         e.preventDefault();
-        navigate('/dashboard');
+        if (code === "") {
+            dispatch(authFailure({ type: "otp" }));
+            toast.error("Iltimos kod kiriting");
+        }
+        else {
+            try {
+                dispatch(authStart());
+                const { data } = await service.verifyAuth(code, newAuth.phoneNumber);
+                dispatch(authSuccess(data));
+                navigate('/dashboard');
+            } catch (error) {
+                dispatch(authFailure(error?.response?.data));
+                toast.error(error?.response?.data?.message || error.message);
+            }
+        }
     };
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            navigate('/dashboard');
+    const resetRegistrationFunction = async () => {
+        try {
+            await service.resetRegistration(newAuth.phoneNumber);
+            setVerifyModal(false);
+        } catch (error) {
+            console.log("Error occurred while resetting registration: ", error);
         }
+    }
+
+    useEffect(() => {
+        if (isLoggedIn) navigate('/dashboard');
     }, [isLoggedIn, navigate]);
 
     return (
@@ -27,17 +51,17 @@ export default function Verify() {
             <div className="w-full flex flex-col items-center my-8">
                 <ImTelegram className="text-center text-blue-700 text-9xl mb-4" />
                 <div className="flex items-center text-2xl gap-1 mb-1">
-                    <h1 className="text-center text-3xl">+998330040804</h1>
-                    <button><RiPencilLine onClick={() => navigate('/register')} /></button>
+                    <h1 className="text-center text-3xl">+998{newAuth.phoneNumber}</h1>
+                    <button><RiPencilLine onClick={resetRegistrationFunction} /></button>
                 </div>
-                <p>We have sent you a message via SMS with the code</p>
+                <p>Sizga SMS orqali xabar yubordik</p>
             </div>
 
-            <form className="max-w-sm mx-auto">
+            <form className="max-w-sm mx-auto" onSubmit={handleVerify}>
                 <div className="relative mb-6">
                     <label
                         htmlFor="code"
-                        className="absolute text-sm bg-white -top-1.5 left-3">
+                        className="absolute text-sm bg-white -top-2.5 left-3">
                         <span>Code</span>
                         <span className="text-sm text-red-500 ml-1">*</span>
                     </label>
@@ -47,15 +71,14 @@ export default function Verify() {
                         type="number"
                         name="code"
                         id="code"
-                        className="w-full p-2 rounded-lg border-2 outline-blue-700" />
+                        className={`${isError?.type === "otp" ? 'border-red-500' : ''} w-full p-2 rounded-lg border-2 outline-blue-700 disabled:bg-gray-100`} />
                 </div>
 
                 <button
-                    onClick={handleLogin}
-                    type="button"
-                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 text-center"
+                    disabled={isLoading}
+                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 text-center disabled:bg-blue-800"
                 >
-                    {isLoading ? "Loading..." : "Submit"}
+                    {isLoading ? "Yuklanmoqda..." : "Tasdiqlash"}
                 </button>
             </form>
         </main>
