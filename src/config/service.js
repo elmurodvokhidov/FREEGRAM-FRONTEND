@@ -32,6 +32,16 @@ const service = {
         const res = api.get('/users');
         return res;
     },
+
+    // messages
+    async getMessages(id) {
+        const res = api.get(`/messages/${id}`);
+        return res;
+    },
+    async sendMessage(message, receiver) {
+        const res = api.post(`/messages/${receiver}`, { message });
+        return res;
+    },
 };
 
 export default service;
