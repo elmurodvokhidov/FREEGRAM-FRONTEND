@@ -39,33 +39,35 @@ export default function MessageInput({ user }) {
     };
 
     return (
-        <form onSubmit={handleSend} className="flex items-center gap-2 absolute bottom-4 right-2 left-2 z-0 px-4 shadow-dim rounded-lg bg-main-1">
-            <button className="emoji_button relative">
+        <div className="flex items-center absolute bottom-4 right-4 left-2 z-0 px-4 shadow-dim rounded-lg bg-main-1">
+            <button className="emoji_button size-8 absolute bottom-[10px] z-10">
                 <div className="hidden absolute bottom-8">
                     <Picker
                         data={emoji}
-                        theme={"light"}
-                        onEmojiSelect={console.log}
-                        previewPosition={"none"}
-                        className="hidden"
+                        theme="light"
+                        onEmojiSelect={(emoji) => setMessage(prev => prev + emoji.native)}
+                        previewPosition="none"
+                        set="native"
                     />
                 </div>
-                <CiFaceSmile className="text-[28px] text-gray-400" />
+                <CiFaceSmile className="text-[28px] text-gray-400 absolute bottom-0" />
             </button>
-            <textarea
-                ref={textareaRef}
-                name="message"
-                id="message"
-                rows={1}
-                placeholder="Xabar yozing..."
-                className="scrollbar-hide w-full max-h-80 overflow-y-auto resize-none outline-none p-3 bg-main-1"
-                value={message}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-            ></textarea>
-            <button type="submit" className="text-2xl text-blue-700 absolute bottom-3 right-4">
-                <IoSend />
-            </button>
-        </form>
+            <form onSubmit={handleSend} className="w-full flex items-center rounded-lg">
+                <textarea
+                    ref={textareaRef}
+                    name="message"
+                    id="message"
+                    rows={1}
+                    placeholder="Xabar yozing..."
+                    className="scrollbar-hide w-full max-h-80 overflow-y-auto resize-none outline-none p-3 mx-8 bg-main-1"
+                    value={message}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                ></textarea>
+                <button type="submit" className="text-2xl text-blue-700 absolute bottom-3 right-4">
+                    <IoSend />
+                </button>
+            </form>
+        </div>
     );
 }
