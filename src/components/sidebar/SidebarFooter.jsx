@@ -23,7 +23,7 @@ export default function SidebarFooter() {
     }
 
     return (
-        <footer className="absolute right-2 bottom-4 left-2 flex items-start justify-between p-4 rounded-xl backdrop-blur-lg shadow-smooth">
+        <footer className="absolute right-2 bottom-4 left-2 flex items-start justify-between px-4 py-3 rounded-xl backdrop-blur-lg shadow-smooth">
             <button onClick={handleLogout} className="text-2xl text-gray-500 transition-all hover:text-gray-800">
                 <CiLogout />
             </button>

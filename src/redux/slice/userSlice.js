@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isLoading: false,
     user: null,
-    users: []
+    users: [],
+    active: [],
 };
 
 const UserSlice = createSlice({
@@ -15,12 +16,16 @@ const UserSlice = createSlice({
         },
         userSuccess: (state, action) => {
             state.isLoading = false;
-            if (action.payload.type === "a") {
-                state.user = action.payload.data;
-            }
-            else if (action.payload.type === "b") {
+            if (action.payload.type === "all") {
                 state.users = action.payload.data;
             }
+            else if (action.payload.type === "one") {
+                state.user = action.payload.data;
+            }
+        },
+        activeSuccess: (state, action) => {
+            state.isLoading = false;
+            state.active = action.payload;
         },
         userEnd: (state) => {
             state.isLoading = false;
@@ -31,6 +36,7 @@ const UserSlice = createSlice({
 export const {
     userStart,
     userSuccess,
+    activeSuccess,
     userEnd,
 } = UserSlice.actions;
 export default UserSlice.reducer;

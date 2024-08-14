@@ -4,8 +4,11 @@ import service from "../../config/service";
 import emoji from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { CiFaceSmile } from "react-icons/ci";
+import { useDispatch } from "react-redux";
+import { messageSuccess } from "../../redux/slice/messageSlice";
 
 export default function MessageInput({ user }) {
+    const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const textareaRef = useRef(null);
 
@@ -13,7 +16,9 @@ export default function MessageInput({ user }) {
         e.preventDefault();
         if (message.trim() === "") return;
         try {
-            await service.sendMessage(message, user?._id);
+            const { data } = await service.sendMessage(message, user?._id);
+            // ! Agar foydalanavuvchi boshqa foydalanuvchiga xabar yozsa unda o'zining yozgan xabari real-time'da o'ziga darhol ko'rinmayotgan edi, sababi send message funktsiyasi ishlagan payt backend'dan qaytgan yangi xabarni saqlanmaganligida...
+            dispatch(messageSuccess({ data, type: "push" }));
             setMessage("");
             textareaRef.current.style.height = "auto";
         } catch (error) {

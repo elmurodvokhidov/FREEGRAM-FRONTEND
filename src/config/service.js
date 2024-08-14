@@ -28,8 +28,8 @@ const service = {
     },
 
     // users
-    async getAllUsers() {
-        const res = api.get('/users');
+    async getUsers(search) {
+        const res = api.get(search ? `/users?search=${search}` : '/users');
         return res;
     },
 

@@ -14,7 +14,12 @@ const MessageSlice = createSlice({
         },
         messageSuccess: (state, action) => {
             state.isMessageLoading = false;
-            state.messages = action.payload;
+            if (action.payload.type === "set") {
+                state.messages = action.payload.data;
+            }
+            else if (action.payload.type === "push") {
+                state.messages.push(action.payload.data);
+            }
         },
         messageEnd: (state) => {
             state.isMessageLoading = false;
