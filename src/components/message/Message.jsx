@@ -7,8 +7,8 @@ export default function Message({ msg, customRef }) {
 
     return (
         <div ref={customRef} className={`${isSender ? 'justify-end' : 'justify-start'} flex`}>
-            <div className={`${isSender ? 'bg-blue-100' : 'bg-white'} max-w-md flex items-end gap-2 rounded-md px-4 py-2 shadow-md`}>
-                <p>{msg.message}</p>
+            <div className={`${isSender ? 'bg-sender' : 'bg-primary'} max-w-md flex items-end gap-2 rounded-md px-4 py-2 shadow-md`}>
+                <p className="text-text">{msg.message}</p>
                 <p className="text-xs text-gray-400 whitespace-nowrap">{extractTime(msg.createdAt)}</p>
             </div>
         </div>

@@ -7,7 +7,7 @@ import { CiFaceSmile } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { messageSuccess } from "../../redux/slice/messageSlice";
 
-export default function MessageInput({ user }) {
+export default function MessageInput({ user, theme }) {
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const textareaRef = useRef(null);
@@ -44,12 +44,12 @@ export default function MessageInput({ user }) {
     };
 
     return (
-        <div className="flex items-center absolute bottom-4 right-4 left-2 z-0 px-4 shadow-dim rounded-lg bg-main-1">
+        <div className="flex items-center absolute bottom-4 right-4 left-2 z-0 px-4 shadow-md rounded-lg bg-primary">
             <button className="emoji_button size-8 absolute bottom-[10px] z-10">
                 <div className="hidden absolute bottom-8">
                     <Picker
                         data={emoji}
-                        theme="light"
+                        theme={theme}
                         onEmojiSelect={(emoji) => setMessage(prev => prev + emoji.native)}
                         previewPosition="none"
                         set="native"
@@ -64,7 +64,7 @@ export default function MessageInput({ user }) {
                     id="message"
                     rows={1}
                     placeholder="Xabar yozing..."
-                    className="scrollbar-hide w-full max-h-80 overflow-y-auto resize-none outline-none p-3 mx-8 bg-main-1"
+                    className="scrollbar-hide w-full max-h-80 overflow-y-auto resize-none outline-none p-3 mx-8 text-text bg-primary"
                     value={message}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}

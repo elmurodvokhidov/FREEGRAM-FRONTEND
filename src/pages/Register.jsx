@@ -4,9 +4,10 @@ import { ImTelegram } from "react-icons/im";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { authFailure, authStart, authSuccess } from "../redux/slice/authSlice";
+import { authFailure, authStart } from "../redux/slice/authSlice";
 import service from "../config/service";
 import Verify from "./Verify";
+import { showErrorToast } from "../utils/CustomToasts";
 
 export default function Register() {
     const { isLoading, isLoggedIn, isError } = useSelector(state => state.auth);
@@ -28,27 +29,27 @@ export default function Register() {
         e.preventDefault();
         if (newAuth.fullname === "") {
             dispatch(authFailure({ type: "fullname" }));
-            toast.error("Iltimos ism kiriting");
+            showErrorToast("Iltimos ism kiriting");
         }
         else if (newAuth.phoneNumber === "") {
             dispatch(authFailure({ type: "phone" }));
-            toast.error("Iltimos telefon raqam kiriting");
+            showErrorToast("Iltimos telefon raqam kiriting");
         }
         else if (newAuth.password === "") {
             dispatch(authFailure({ type: "password" }));
-            toast.error("Iltimos parol kiriting");
+            showErrorToast("Iltimos parol kiriting");
         }
         else {
             try {
                 dispatch(authStart());
                 await service.authRegister({ ...newAuth, phoneNumber: `998${newAuth.phoneNumber}` });
                 // setNewAuth(data);
-                toast.success("Xabar muvaffaqiyatli jo'natildi");
+                showErrorToast("Xabar muvaffaqiyatli jo'natildi");
                 setVerifyModal(true);
                 dispatch(authFailure());
             } catch (error) {
                 dispatch(authFailure(error?.response?.data));
-                toast.error(error?.response?.data?.message || error.message);
+                showErrorToast(error?.response?.data?.message || error.message);
             }
         }
     };

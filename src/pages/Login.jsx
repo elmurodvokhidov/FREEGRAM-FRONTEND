@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { authFailure, authStart, authSuccess } from "../redux/slice/authSlice";
 import service from "../config/service";
-import toast from "react-hot-toast";
+import { showErrorToast } from "../utils/CustomToasts";
 
 export default function Login() {
     const { isLoading, isLoggedIn, isError } = useSelector(state => state.auth);
@@ -25,11 +25,11 @@ export default function Login() {
         e.preventDefault();
         if (newAuth.phoneNumber === "") {
             dispatch(authFailure({ type: "phone" }));
-            toast.error("Iltimos telefon raqam kiriting");
+            showErrorToast("Iltimos telefon raqam kiriting");
         }
         else if (newAuth.password === "") {
             dispatch(authFailure({ type: "password" }));
-            toast.error("Iltimos parol kiriting");
+            showErrorToast("Iltimos parol kiriting");
         }
         else {
             try {
@@ -39,7 +39,7 @@ export default function Login() {
                 navigate('/dashboard');
             } catch (error) {
                 dispatch(authFailure(error?.response?.data));
-                toast.error(error?.response?.data?.message || error.message);
+                showErrorToast(error?.response?.data?.message || error.message);
             }
         }
     };
@@ -49,24 +49,24 @@ export default function Login() {
     }, [isLoggedIn, navigate]);
 
     return (
-        <main onClick={() => dispatch(authFailure())} className="h-screen w-full absolute z-10">
+        <main onClick={() => dispatch(authFailure())} className="h-screen w-full absolute z-10 bg-primary">
             <div className="w-full flex flex-col items-center my-8">
                 <ImTelegram className="text-center text-blue-700 text-9xl mb-4" />
-                <h1 className="text-center text-3xl">Freegram hisobingizga kiring</h1>
+                <h1 className="text-center text-3xl text-text">Freegram hisobingizga kiring</h1>
             </div>
 
             <form className="max-w-sm mx-auto" onSubmit={handleLogin}>
                 <div className="flex flex-col relative mb-6">
                     <label
                         htmlFor="phoneNumber"
-                        className="absolute text-sm bg-white -top-3 left-3">
+                        className="absolute text-sm bg-primary text-text -top-3 left-3">
                         <span>Telefon</span>
                         <span className="text-base text-red-500 ml-1">*</span>
                     </label>
                     <div className="flex">
                         <label
                             htmlFor="phoneNumber"
-                            className="w-20 text-base border-2 border-r-0 rounded-l px-4 py-2">
+                            className="w-20 text-base border-2 text-text border-r-0 rounded-l px-4 py-2">
                             +998
                         </label>
                         <input
@@ -77,7 +77,7 @@ export default function Login() {
                             maxLength="9"
                             name="phoneNumber"
                             id="phoneNumber"
-                            className={`${isError?.type === "phone" ? 'border-red-500' : ''} w-full border-2 rounded-lg rounded-l-none px-2 py-2 outline-blue-700 disabled:bg-gray-100`}
+                            className={`${isError?.type === "phone" ? 'border-red-500' : ''} w-full border-2 rounded-lg rounded-l-none px-2 py-2 bg-primary text-text outline-blue-700 disabled:bg-secondary`}
                         />
                     </div>
                 </div>
@@ -85,7 +85,7 @@ export default function Login() {
                 <div className="relative mb-8">
                     <label
                         htmlFor="password"
-                        className="absolute text-sm bg-white -top-2.5 left-3">
+                        className="absolute text-sm bg-primary text-text -top-2.5 left-3">
                         <span>Parol</span>
                         <span className="text-sm text-red-500 ml-1">*</span>
                     </label>
@@ -95,11 +95,11 @@ export default function Login() {
                         type={showPass ? "text" : "password"}
                         name="password"
                         id="password"
-                        className={`${isError?.type === "password" ? 'border-red-500' : ''} w-full p-2 rounded-lg border-2 outline-blue-700 disabled:bg-gray-100`} />
+                        className={`${isError?.type === "password" ? 'border-red-500' : ''} w-full p-2 rounded-lg border-2 bg-primary text-text outline-blue-700 disabled:bg-secondary`} />
                     <button
                         type='button'
                         onClick={() => setShowPass(!showPass)}
-                        className='absolute top-2.5 right-2.5 text-xl text-gray-500'
+                        className='absolute top-2.5 right-2.5 text-xl text-text'
                     >
                         {showPass ? <IoEyeOffOutline /> : <IoEyeOutline />}
                     </button>

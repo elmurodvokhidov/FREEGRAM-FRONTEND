@@ -4,9 +4,14 @@ import { userEnd, userStart, userSuccess } from "../../redux/slice/userSlice";
 import service from "../../config/service";
 import toast from "react-hot-toast";
 import { messageEnd, messageStart, messageSuccess } from "../../redux/slice/messageSlice";
-import { useDelay } from "../../utils/useDelay";
+import { useDelay } from "../../hooks/useDelay";
+import { showErrorToast } from "../../utils/CustomToasts";
 
-export default function UserComponent({ isSelected, setIsSelected, search }) {
+export default function UserComponent({
+    isSelected,
+    setIsSelected,
+    search,
+}) {
     const { users, active } = useSelector(state => state.user);
     const dispatch = useDispatch();
     const delayedValue = useDelay(search, 500);
@@ -35,7 +40,7 @@ export default function UserComponent({ isSelected, setIsSelected, search }) {
             setIsSelected(user?._id);
         } catch (error) {
             dispatch(messageEnd());
-            toast.error(error.message);
+            showErrorToast(error.message);
             console.log(error);
         }
     }
@@ -48,15 +53,13 @@ export default function UserComponent({ isSelected, setIsSelected, search }) {
                         <div
                             key={user?._id}
                             onClick={() => getMessagesFunction(user)}
-                            className={`${isSelected === user?._id && 'bg-gray-100'} flex items-start justify-between p-2 cursor-pointer rounded hover:bg-gray-100 transition-all`}>
-                            <div className="flex gap-4">
-                                <img src={user?.avatar} alt={user?.fullname} className="size-12" />
-                                <div className="flex flex-col">
-                                    <h4 className="text-base">{user?.fullname}</h4>
-                                    <p className="text-sm text-gray-400">
-                                        {active.includes(user?._id) ? <span className='text-blue-500'>online</span> : <span>offline</span>}
-                                    </p>
-                                </div>
+                            className={`${isSelected === user?._id && 'bg-secondary'} flex items-center gap-4 p-2 cursor-pointer rounded hover:bg-secondary transition-all`}>
+                            <img src={user?.avatar} alt={user?.fullname} className="size-12" />
+                            <div className="flex flex-col">
+                                <h4 className="text-base text-text">{user?.fullname}</h4>
+                                <p className="text-sm text-gray-400">
+                                    {active.includes(user?._id) ? <span className='text-blue-500'>online</span> : <span>offline</span>}
+                                </p>
                             </div>
                         </div>
                     ))

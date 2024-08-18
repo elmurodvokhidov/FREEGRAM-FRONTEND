@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { ImTelegram } from "react-icons/im";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { RiPencilLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { authFailure, authStart, authSuccess } from "../redux/slice/authSlice";
-import toast from "react-hot-toast";
 import service from "../config/service";
+import { GoPencil } from "react-icons/go";
+import { showErrorToast } from "../utils/CustomToasts";
 
 export default function Verify({ setVerifyModal, newAuth }) {
     const { isLoading, isLoggedIn, isError } = useSelector(state => state.auth);
@@ -18,7 +17,8 @@ export default function Verify({ setVerifyModal, newAuth }) {
         e.preventDefault();
         if (code === "") {
             dispatch(authFailure({ type: "otp" }));
-            toast.error("Iltimos kod kiriting");
+            showErrorToast("Iltimos kod kiriting");
+
         }
         else {
             try {
@@ -28,7 +28,7 @@ export default function Verify({ setVerifyModal, newAuth }) {
                 navigate('/dashboard');
             } catch (error) {
                 dispatch(authFailure(error?.response?.data));
-                toast.error(error?.response?.data?.message || error.message);
+                showErrorToast(error?.response?.data?.message || error.message);
             }
         }
     };
@@ -52,7 +52,7 @@ export default function Verify({ setVerifyModal, newAuth }) {
                 <ImTelegram className="text-center text-blue-700 text-9xl mb-4" />
                 <div className="flex items-center text-2xl gap-1 mb-1">
                     <h1 className="text-center text-3xl">+998{newAuth.phoneNumber}</h1>
-                    <button><RiPencilLine onClick={resetRegistrationFunction} /></button>
+                    <button><GoPencil onClick={resetRegistrationFunction} /></button>
                 </div>
                 <p>Sizga SMS orqali xabar yubordik</p>
             </div>

@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import service from "./config/service";
 import { authSuccess } from "./redux/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ export default function App() {
   const { user } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [theme, setTheme] = useState("");
 
   useEffect(() => {
     if (Cookies.get("token")) {
@@ -33,6 +34,55 @@ export default function App() {
         }
       };
       getCurrentAuthFunction();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("theme")) {
+      setTheme(localStorage.getItem("theme"));
+    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      toast.success(
+        "Siz yana onlaynsiz!",
+        {
+          icon: "😊",
+          style: {
+            background: "var(--primary)",
+            color: "var(--text)"
+          },
+          duration: 7000,
+        }
+      );
+    };
+
+    const handleOffline = () => {
+      toast.error(
+        "Siz oflaynsiz. Internet aloqangizni tekshiring.",
+        {
+          icon: "⚠",
+          style: {
+            background: "var(--primary)",
+            color: "var(--text)"
+          },
+          duration: 7000,
+        }
+      );
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    // Cleanup event listeners on component unmount
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
@@ -59,15 +109,13 @@ export default function App() {
   }, [auth, dispatch]);
 
   return (
-    <main>
+    <main className={theme}>
       <Toaster position="top-right" reverseOrder={true} />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        // todo: Foydalanuvchi xaqida ma'lumot olish uchun route qo'shiladi...
-      // todo: Foydalanuvchi o'zi haqida ma'lumot olish uchun route qo'shiladi...
+        <Route path="/dashboard" element={<Dashboard theme={theme} setTheme={setTheme} />} />
       </Routes>
     </main>
   )
