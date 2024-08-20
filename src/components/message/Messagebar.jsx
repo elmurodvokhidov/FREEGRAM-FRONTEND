@@ -21,7 +21,7 @@ export default function Messagebar({
     }, [messages]);
 
     return (
-        <main className="flex-1 relative z-10 bg-primary">
+        <main className="flex-1 relative bg-primary">
             <MessagebarHeader
                 user={user}
                 active={active}

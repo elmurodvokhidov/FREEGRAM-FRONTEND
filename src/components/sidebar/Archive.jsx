@@ -1,8 +1,8 @@
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 
-export default function Archive({ setIsArchive }) {
+export default function Archive({ isArchive, setIsArchive }) {
     return (
-        <div className="absolute right-0 size-full z-20 bg-primary">
+        <div className={`${isArchive ? "right-0 z-10" : "-right-full -z-10"} absolute top-0 size-full bg-primary transition-all duration-300`}>
             <header className="w-full absolute top-0 flex items-center gap-8 pt-2 pb-4 pl-4 bg-primary">
                 <button onClick={() => setIsArchive(false)} className="text-2xl text-text transition-all hover:text-gray-500"><HiOutlineArrowLeft /></button>
                 <h1 className="text-xl text-text">Arxiv chatlar</h1>

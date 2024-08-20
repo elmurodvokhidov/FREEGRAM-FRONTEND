@@ -51,17 +51,17 @@ export default function Verify({ setVerifyModal, newAuth }) {
             <div className="w-full flex flex-col items-center my-8">
                 <ImTelegram className="text-center text-blue-700 text-9xl mb-4" />
                 <div className="flex items-center text-2xl gap-1 mb-1">
-                    <h1 className="text-center text-3xl">+998{newAuth.phoneNumber}</h1>
+                    <h1 className="text-center text-3xl text-text">+998{newAuth.phoneNumber}</h1>
                     <button><GoPencil onClick={resetRegistrationFunction} /></button>
                 </div>
-                <p>Sizga SMS orqali xabar yubordik</p>
+                <p className="text-text">Sizga SMS orqali xabar yubordik</p>
             </div>
 
             <form className="max-w-sm mx-auto" onSubmit={handleVerify}>
                 <div className="relative mb-6">
                     <label
                         htmlFor="code"
-                        className="absolute text-sm bg-white -top-2.5 left-3">
+                        className="absolute text-sm bg-primary text-text -top-2.5 left-3">
                         <span>Code</span>
                         <span className="text-sm text-red-500 ml-1">*</span>
                     </label>
@@ -71,7 +71,7 @@ export default function Verify({ setVerifyModal, newAuth }) {
                         type="number"
                         name="code"
                         id="code"
-                        className={`${isError?.type === "otp" ? 'border-red-500' : ''} w-full p-2 rounded-lg border-2 outline-blue-700 disabled:bg-gray-100`} />
+                        className={`${isError?.type === "otp" ? 'border-red-500' : ''} w-full p-2 rounded-lg border-2 bg-primary text-text outline-blue-700 disabled:bg-gray-100`} />
                 </div>
 
                 <button

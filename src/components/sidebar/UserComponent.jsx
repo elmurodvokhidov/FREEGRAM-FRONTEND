@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { userEnd, userStart, userSuccess } from "../../redux/slice/userSlice";
 import service from "../../config/service";
-import toast from "react-hot-toast";
 import { messageEnd, messageStart, messageSuccess } from "../../redux/slice/messageSlice";
 import { useDelay } from "../../hooks/useDelay";
 import { showErrorToast } from "../../utils/CustomToasts";
