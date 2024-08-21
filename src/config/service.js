@@ -26,6 +26,10 @@ const service = {
         const res = api.get('/auth/me');
         return res;
     },
+    async updateAuth(id, auth) {
+        const res = api.put(`/auth/${id}`, auth);
+        return res;
+    },
 
     // users
     async getUsers(search) {

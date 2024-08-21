@@ -1,14 +1,43 @@
 import { HiOutlineArrowLeft } from "react-icons/hi2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authFailure, authStart, authSuccess } from "../../redux/slice/authSlice";
+import service from "../../config/service";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 export default function UpdateProfile({ isUpdate, setIsUpdate, newAuth, setNewAuth }) {
-    const { auth, isLoading, isError } = useSelector(state => state.auth);
+    const { auth, isError } = useSelector(state => state.auth);
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const getAuthCred = (e) => {
         setNewAuth({ ...newAuth, [e.target.name]: e.target.value });
     };
 
-    const handleUpdate = async (e) => { }
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            const { data } = await service.updateAuth(newAuth._id, newAuth);
+            dispatch(authSuccess(data));
+            setNewAuth(data);
+            toast.success(
+                "Muvaffaqiyatli saqlandi.",
+                {
+                    icon: "✔",
+                    style: {
+                        background: "var(--primary)",
+                        color: "var(--text)"
+                    },
+                    duration: 3000,
+                }
+            );
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <div className={`${isUpdate ? "right-0 z-30" : "-right-full -z-30"} absolute top-0 size-full bg-primary transition-all duration-300`}>
@@ -41,7 +70,7 @@ export default function UpdateProfile({ isUpdate, setIsUpdate, newAuth, setNewAu
                             type="text"
                             name="fullname"
                             id="fullname"
-                            className={`${isError?.type === "fullname" ? 'border-red-500' : ''} w-full p-2 rounded-lg border-2 bg-primary text-text outline-blue-700 disabled:bg-gray-100`} />
+                            className={`${isError?.type === "fullname" ? 'border-red-500' : ''} w-full p-2 rounded-lg border-2 bg-primary text-text outline-blue-700 disabled:bg-secondary`} />
                     </div>
 
                     <div className="relative mb-6 mx-4">
@@ -57,8 +86,8 @@ export default function UpdateProfile({ isUpdate, setIsUpdate, newAuth, setNewAu
                             value={newAuth.bio}
                             disabled={isLoading}
                             onChange={getAuthCred}
-                            maxLength={70}
-                            className="w-full resize-none p-2 rounded-lg border-2 bg-primary text-text outline-blue-700 disabled:bg-gray-100"
+                            maxLength={80}
+                            className="w-full resize-none p-2 rounded-lg border-2 bg-primary text-text outline-blue-700 disabled:bg-secondary"
                         ></textarea>
                     </div>
 

@@ -45,7 +45,7 @@ export default function Settings({ isSettings, setIsSettings, setIsUpdate, setNe
                 </div>
                 <div className="flex items-center gap-6">
                     <span><GoInfo className="text-2xl text-gray-500" /></span>
-                    <p className="text-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora atque</p>
+                    <p className="text-text">{auth?.bio}</p>
                 </div>
             </footer>
         </div>
