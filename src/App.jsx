@@ -20,7 +20,21 @@ export default function App() {
   const { user } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [theme, setTheme] = useState("");
+  const [modals, setModals] = useState({
+    isSelected: null,
+    userModal: false,
+    menu: false,
+    searchBarModal: false,
+    theme: "",
+    isArchive: false,
+    isSettings: false,
+    isUpdate: false,
+    privacy: false,
+  });
+
+  const handleModal = (modalName, value) => {
+    setModals(prevState => ({ ...prevState, [modalName]: value }));
+  };
 
   useEffect(() => {
     if (Cookies.get("token")) {
@@ -39,11 +53,11 @@ export default function App() {
 
   useEffect(() => {
     if (localStorage.getItem("theme")) {
-      setTheme(localStorage.getItem("theme"));
+      handleModal("theme", localStorage.getItem("theme"));
     } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
+      handleModal("theme", "dark");
     } else {
-      setTheme("light");
+      handleModal("theme", "light");
     }
   }, []);
 
@@ -109,13 +123,13 @@ export default function App() {
   }, [auth, dispatch]);
 
   return (
-    <main className={theme}>
+    <main className={modals.theme}>
       <Toaster position="top-right" reverseOrder={true} />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard theme={theme} setTheme={setTheme} />} />
+        {/* <Route path="/register" element={<Register />} /> */}
+        <Route path="/dashboard" element={<Dashboard modals={modals} handleModal={handleModal} />} />
       </Routes>
     </main>
   )

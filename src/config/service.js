@@ -30,6 +30,10 @@ const service = {
         const res = api.put(`/auth/${id}`, auth);
         return res;
     },
+    async updatePrivacy(privacy) {
+        const res = api.put('/auth/privacy', { privacy });
+        return res;
+    },
 
     // users
     async getUsers(search) {

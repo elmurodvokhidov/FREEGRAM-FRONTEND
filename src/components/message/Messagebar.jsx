@@ -5,12 +5,7 @@ import MessageInput from "./MessageInput";
 import Starter from "./Starter";
 import { useEffect, useRef } from "react";
 
-export default function Messagebar({
-    messages,
-    userModal,
-    setUserModal,
-    theme,
-}) {
+export default function Messagebar({ messages, modals, handleModal }) {
     const { user, active } = useSelector(state => state.user);
     const lastMessageRef = useRef();
 
@@ -25,8 +20,8 @@ export default function Messagebar({
             <MessagebarHeader
                 user={user}
                 active={active}
-                userModal={userModal}
-                setUserModal={setUserModal}
+                modals={modals}
+                handleModal={handleModal}
             />
 
             {
@@ -37,7 +32,7 @@ export default function Messagebar({
                     : <Starter txt={"Xabar mavjud emas"} extraStyle={"top-[40%]"} />
             }
 
-            <MessageInput user={user} theme={theme} />
+            <MessageInput user={user} modals={modals} />
         </main>
     )
 }

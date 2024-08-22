@@ -7,19 +7,10 @@ import SidebarModal from "./SidebarModal";
 import Archive from "./Archive";
 import Settings from "./Settings";
 import UpdateProfile from "./UpdateProfile";
+import Privacy from "./Privacy";
 
-export default function Sidebar({
-    isSelected,
-    setIsSelected,
-    isModal,
-    setIsModal,
-    theme,
-    setTheme,
-}) {
+export default function Sidebar({ modals, handleModal }) {
     const [search, setSearch] = useState("");
-    const [isArchive, setIsArchive] = useState(false);
-    const [isSettings, setIsSettings] = useState(false);
-    const [isUpdate, setIsUpdate] = useState(false);
     const [newAuth, setNewAuth] = useState({
         fullname: "",
         phoneNumber: "",
@@ -28,43 +19,24 @@ export default function Sidebar({
 
     const menuFunction = (e) => {
         e.stopPropagation();
-        setIsModal(!isModal);
+        handleModal("menu", !modals.menu);
     }
 
     return (
         <main className="relative flex flex-col gap-4 w-1/4 h-screen p-2 bg-primary shadow-lg">
-            <Archive isArchive={isArchive} setIsArchive={setIsArchive} />
-            <Settings
-                isSettings={isSettings}
-                setIsSettings={setIsSettings}
-                setIsUpdate={setIsUpdate}
-                setNewAuth={setNewAuth}
-            />
-            <UpdateProfile
-                isUpdate={isUpdate}
-                setIsUpdate={setIsUpdate}
-                setIsSettings={setIsSettings}
-                newAuth={newAuth}
-                setNewAuth={setNewAuth}
-            />
+            <Archive modals={modals} handleModal={handleModal} />
+            <Settings modals={modals} handleModal={handleModal} setNewAuth={setNewAuth} />
+            <UpdateProfile modals={modals} handleModal={handleModal} newAuth={newAuth} setNewAuth={setNewAuth} />
+            <Privacy modals={modals} handleModal={handleModal} />
 
             <div className="flex items-center gap-2 px-3">
                 <button onClick={menuFunction}>
                     <IoIosMenu className="text-[26px] text-text hover:text-gray-500 transition-all" />
                 </button>
                 <Searchbar search={search} setSearch={setSearch} />
-                {isModal && <SidebarModal
-                    setIsArchive={setIsArchive}
-                    setIsSettings={setIsSettings}
-                    theme={theme}
-                    setTheme={setTheme}
-                />}
+                {modals.menu && <SidebarModal modals={modals} handleModal={handleModal} />}
             </div>
-            <UserComponent
-                isSelected={isSelected}
-                setIsSelected={setIsSelected}
-                search={search}
-            />
+            <UserComponent modals={modals} handleModal={handleModal} search={search} />
             <SidebarFooter />
         </main>
     )

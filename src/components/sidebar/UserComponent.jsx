@@ -6,11 +6,8 @@ import { messageEnd, messageStart, messageSuccess } from "../../redux/slice/mess
 import { useDelay } from "../../hooks/useDelay";
 import { showErrorToast } from "../../utils/CustomToasts";
 
-export default function UserComponent({
-    isSelected,
-    setIsSelected,
-    search,
-}) {
+export default function UserComponent({ modals, handleModal, search }) {
+
     const { users, active } = useSelector(state => state.user);
     const dispatch = useDispatch();
     const delayedValue = useDelay(search, 500);
@@ -36,7 +33,7 @@ export default function UserComponent({
             const { data } = await service.getMessages(user?._id);
             dispatch(messageSuccess({ data, type: "set" }));
             dispatch(userSuccess({ data: user, type: "one" }));
-            setIsSelected(user?._id);
+            handleModal("isSelected", user?._id);
         } catch (error) {
             dispatch(messageEnd());
             showErrorToast(error.message);
@@ -52,7 +49,7 @@ export default function UserComponent({
                         <div
                             key={user?._id}
                             onClick={() => getMessagesFunction(user)}
-                            className={`${isSelected === user?._id && 'bg-secondary'} flex items-center gap-4 p-2 cursor-pointer rounded hover:bg-secondary transition-all`}>
+                            className={`${modals.isSelected === user?._id && 'bg-secondary'} flex items-center gap-4 p-2 cursor-pointer rounded hover:bg-secondary transition-all`}>
                             <img src={user?.avatar} alt={user?.fullname} className="size-12" />
                             <div className="flex flex-col">
                                 <h4 className="text-base text-text">{user?.fullname}</h4>

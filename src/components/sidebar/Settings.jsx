@@ -1,22 +1,22 @@
-import { GoInfo, GoPencil } from "react-icons/go";
+import { GoInfo, GoLock, GoPencil } from "react-icons/go";
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { MdOutlinePhone } from "react-icons/md";
 import { useSelector } from "react-redux";
 
-export default function Settings({ isSettings, setIsSettings, setIsUpdate, setNewAuth }) {
+export default function Settings({ modals, handleModal, setNewAuth }) {
     const { auth } = useSelector(state => state.auth);
     const { active } = useSelector(state => state.user);
 
     const openUpdateProfileModal = () => {
-        setIsUpdate(true);
+        handleModal("isUpdate", true);
         setNewAuth(auth);
     }
 
     return (
-        <div className={`${isSettings ? "right-0 z-20" : "-right-full -z-20"} absolute top-0 size-full bg-primary transition-all duration-300`}>
+        <div className={`${modals.isSettings ? "right-0 z-20" : "-right-full -z-20"} absolute top-0 size-full bg-primary transition-all duration-300`}>
             <header className="w-full absolute top-0 flex items-center justify-between pt-2 pb-4 pl-4 bg-primary">
                 <div className="flex items-center gap-8">
-                    <button onClick={() => setIsSettings(false)} className="text-2xl text-text transition-all hover:text-gray-500">
+                    <button onClick={() => handleModal("isSettings", false)} className="text-2xl text-text transition-all hover:text-gray-500">
                         <HiOutlineArrowLeft />
                     </button>
                     <h1 className="text-xl text-text">Sozlamalar</h1>
@@ -38,7 +38,7 @@ export default function Settings({ isSettings, setIsSettings, setIsUpdate, setNe
                 </div>
             </main>
 
-            <footer className="flex flex-col gap-4 px-4">
+            <section className="flex flex-col gap-4 px-4">
                 <div className="flex items-center gap-6">
                     <span><MdOutlinePhone className="text-2xl text-gray-500" /></span>
                     <p className="text-text">+{auth?.phoneNumber}</p>
@@ -47,6 +47,13 @@ export default function Settings({ isSettings, setIsSettings, setIsUpdate, setNe
                     <span><GoInfo className="text-2xl text-gray-500" /></span>
                     <p className="text-text">{auth?.bio}</p>
                 </div>
+            </section>
+
+            <footer className="flex flex-col gap-4 px-4 mt-10">
+                <button onClick={() => handleModal("privacy", true)} className="flex items-center gap-6">
+                    <span><GoLock className="text-2xl text-gray-500" /></span>
+                    <p className="text-text">Maxfiylik va xavfsizlik</p>
+                </button>
             </footer>
         </div>
     )

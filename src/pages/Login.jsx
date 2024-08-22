@@ -112,11 +112,11 @@ export default function Login() {
                     {isLoading ? "Yuklanmoqda..." : "Hisobga kirish"}
                 </button>
 
-                <div className="flex justify-end">
+                {/* <div className="flex justify-end">
                     <Link to={"/register"} className="text-blue-500 hover:underline">
                         Ro'yhatdan o'tish
                     </Link>
-                </div>
+                </div> */}
             </form>
         </main>
     )

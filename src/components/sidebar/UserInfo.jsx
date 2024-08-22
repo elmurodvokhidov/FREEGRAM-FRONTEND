@@ -3,16 +3,13 @@ import { HiOutlineXMark } from "react-icons/hi2";
 import { MdOutlinePhone } from "react-icons/md";
 import { useSelector } from "react-redux";
 
-export default function UserInfo({
-    userModal,
-    setUserModal,
-}) {
+export default function UserInfo({ modals, handleModal }) {
     const { user, active } = useSelector(state => state.user);
 
     return (
         <div className="w-1/4 flex flex-col gap-4 relative shadow-xl z-20 px-4 py-3 bg-primary">
             <header className="flex items-center gap-8">
-                <button onClick={() => setUserModal(!userModal)} className="text-2xl text-text transition-all hover:text-gray-500"><HiOutlineXMark /></button>
+                <button onClick={() => handleModal("userModal", !modals.userModal)} className="text-2xl text-text transition-all hover:text-gray-500"><HiOutlineXMark /></button>
                 <h1 className="text-xl text-text">Foydalanuvchi ma'lumotlari</h1>
             </header>
 

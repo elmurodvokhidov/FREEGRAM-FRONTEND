@@ -1,11 +1,11 @@
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
-import { authFailure, authStart, authSuccess } from "../../redux/slice/authSlice";
+import { authSuccess } from "../../redux/slice/authSlice";
 import service from "../../config/service";
 import toast from "react-hot-toast";
 import { useState } from "react";
 
-export default function UpdateProfile({ isUpdate, setIsUpdate, newAuth, setNewAuth }) {
+export default function UpdateProfile({ modals, handleModal, newAuth, setNewAuth }) {
     const { auth, isError } = useSelector(state => state.auth);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
@@ -40,10 +40,10 @@ export default function UpdateProfile({ isUpdate, setIsUpdate, newAuth, setNewAu
     }
 
     return (
-        <div className={`${isUpdate ? "right-0 z-30" : "-right-full -z-30"} absolute top-0 size-full bg-primary transition-all duration-300`}>
+        <div className={`${modals.isUpdate ? "right-0 z-30" : "-right-full -z-30"} absolute top-0 size-full bg-primary transition-all duration-300`}>
             <header className="w-full absolute top-0 flex items-center justify-between pt-2 pb-4 pl-4 bg-primary">
                 <div className="flex items-center gap-8">
-                    <button onClick={() => setIsUpdate(false)} className="text-2xl text-text transition-all hover:text-gray-500">
+                    <button onClick={() => handleModal("isUpdate", false)} className="text-2xl text-text transition-all hover:text-gray-500">
                         <HiOutlineArrowLeft />
                     </button>
                     <h1 className="text-xl text-text">Profilni tahrirlash</h1>
