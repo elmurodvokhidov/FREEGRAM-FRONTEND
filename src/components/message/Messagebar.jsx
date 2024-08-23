@@ -16,7 +16,7 @@ export default function Messagebar({ messages, modals, handleModal }) {
     }, [messages]);
 
     return (
-        <main className="flex-1 relative bg-primary">
+        <main className="flex-1 relative bg-secondary">
             <MessagebarHeader
                 user={user}
                 active={active}
@@ -26,7 +26,7 @@ export default function Messagebar({ messages, modals, handleModal }) {
 
             {
                 messages.length ?
-                    <section className="h-screen scrollbar-hide overflow-y-auto flex flex-col gap-1 px-4 pt-16 pb-[75px] bg-secondary">
+                    <section className="h-screen scrollbar-hide overflow-y-auto flex flex-col gap-1 px-4 pt-16 pb-[75px] bg-secondary  transition-colors duration-300">
                         {messages.map((msg, ind) => <Message msg={msg} key={ind} customRef={lastMessageRef} />)}
                     </section>
                     : <Starter txt={"Xabar mavjud emas"} extraStyle={"top-[40%]"} />

@@ -21,7 +21,7 @@
   --primary: #212121;
   --secondary: #181818;
   --text: #f8f8f8;
-  --sender: #3b82f6;
+  --sender: #3b83f650;
 
   background: var(--primary);
 }

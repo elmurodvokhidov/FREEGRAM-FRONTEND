@@ -14,7 +14,7 @@ export default function UserInfo({ modals, handleModal }) {
             </header>
 
             <main className="flex flex-col items-center gap-4 py-6 mt-2">
-                <figure className="size-28 overflow-hidden rounded-full">
+                <figure className="size-28 overflow-hidden rounded-full bg-sender">
                     <img className="size-full object-cover" src={user?.avatar} alt={user?.fullname} />
                 </figure>
                 <div className="flex flex-col items-center">
@@ -30,10 +30,13 @@ export default function UserInfo({ modals, handleModal }) {
                     <span><MdOutlinePhone className="text-2xl text-gray-500" /></span>
                     <p className="text-text">+{user?.phoneNumber}</p>
                 </div>
-                <div className="flex items-center gap-6">
-                    <span><GoInfo className="text-2xl text-gray-500" /></span>
-                    <p className="text-text">{user?.bio}</p>
-                </div>
+                {
+                    user && user.bio &&
+                    <div className="flex items-center gap-6">
+                        <span><GoInfo className="text-2xl text-gray-500" /></span>
+                        <p className="text-text">{user?.bio}</p>
+                    </div>
+                }
             </footer>
         </div>
     )

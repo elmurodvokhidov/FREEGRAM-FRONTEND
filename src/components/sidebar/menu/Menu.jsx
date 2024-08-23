@@ -15,7 +15,7 @@ export default function Menu({ modals, handleModal }) {
     }
 
     return (
-        <div className="flex flex-col absolute left-4 top-16 p-2 shadow-lg rounded-lg backdrop-blur-3xl">
+        <div className="flex flex-col absolute left-4 top-16 p-2 shadow-lg rounded-lg backdrop-blur-3xl select-none">
             <button onClick={() => handleModal("archive", true)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
                 <span><PiArchive className="text-xl" /></span>
                 <span className="text-base">Arxiv chatlar</span>

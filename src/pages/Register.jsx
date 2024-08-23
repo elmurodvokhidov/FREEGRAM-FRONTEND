@@ -62,7 +62,7 @@ export default function Register() {
 
     return (
         <main onClick={() => dispatch(authFailure())} className="h-screen w-full absolute z-10">
-            <div className="w-full flex flex-col items-center my-8">
+            <div className="w-full flex flex-col items-center my-8 select-none">
                 <ImTelegram className="text-center text-blue-700 text-9xl mb-4" />
                 <h1 className="text-center text-3xl text-text">Ro'yxatdan o'ting</h1>
             </div>
@@ -71,7 +71,7 @@ export default function Register() {
                 <div className="relative mb-6">
                     <label
                         htmlFor="fullname"
-                        className="absolute text-sm bg-primary text-text -top-2.5 left-3">
+                        className="absolute text-sm bg-primary text-text -top-2.5 left-3 select-none">
                         <span>Ism (F.I.)</span>
                         <span className="text-sm text-red-500 ml-1">*</span>
                     </label>
@@ -88,7 +88,7 @@ export default function Register() {
                 <div className="flex flex-col relative mb-6">
                     <label
                         htmlFor="phoneNumber"
-                        className="absolute text-sm bg-primary text-text -top-3 left-3">
+                        className="absolute text-sm bg-primary text-text -top-3 left-3 select-none">
                         <span>Telefon</span>
                         <span className="text-base text-red-500 ml-1">*</span>
                     </label>
@@ -114,7 +114,7 @@ export default function Register() {
                 <div className="relative mb-8">
                     <label
                         htmlFor="password"
-                        className="absolute text-sm bg-primary text-text -top-2.5 left-3">
+                        className="absolute text-sm bg-primary text-text -top-2.5 left-3 select-none">
                         <span>Yangi parol</span>
                         <span className="text-sm text-red-500 ml-1">*</span>
                     </label>
@@ -137,13 +137,13 @@ export default function Register() {
 
                 <button
                     disabled={isLoading}
-                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 text-center disabled:bg-blue-800"
+                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 text-center disabled:bg-blue-800 select-none"
                 >
                     {isLoading ? "Yuklanmoqda..." : "Ro'yhatdan o'tish"}
                 </button>
 
                 <div className="flex justify-end">
-                    <Link to={"/"} className="text-blue-500 hover:underline">
+                    <Link to={"/"} className="text-blue-500 hover:underline select-none">
                         Hisobga kirish
                     </Link>
                 </div>

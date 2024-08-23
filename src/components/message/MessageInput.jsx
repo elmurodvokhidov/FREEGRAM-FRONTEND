@@ -43,7 +43,7 @@ export default function MessageInput({ user, modals }) {
     };
 
     return (
-        <div className="flex items-center absolute bottom-2 sm:bottom-4 right-2 left-2 z-0 px-4 shadow-md rounded-lg bg-primary">
+        <div className="flex items-center absolute bottom-2 sm:bottom-4 right-2 left-2 z-0 px-4 shadow-md rounded-lg bg-primary  transition-colors duration-300">
             <button className="emoji_button size-8 absolute bottom-[10px] z-10">
                 <div className="hidden absolute bottom-8">
                     <Picker
@@ -63,7 +63,7 @@ export default function MessageInput({ user, modals }) {
                     id="message"
                     rows={1}
                     placeholder="Xabar yozing..."
-                    className="scrollbar-hide w-full max-h-80 overflow-y-auto resize-none outline-none p-3 mx-8 text-text bg-primary"
+                    className="scrollbar-hide w-full max-h-80 overflow-y-auto resize-none outline-none p-3 mx-8 text-text bg-primary  transition-colors duration-300"
                     value={message}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
