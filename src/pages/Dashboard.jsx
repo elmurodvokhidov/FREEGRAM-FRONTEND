@@ -17,13 +17,13 @@ export default function Dashboard({ modals, handleModal }) {
     }, [isLoggedIn, navigate]);
 
     return (
-        <main onClick={() => handleModal("menu", false)} className="w-full h-screen overflow-hidden flex relative dark:bg-gray-800">
+        <main onClick={() => handleModal("menu", false)} className="w-full h-screen overflow-hidden flex relative">
             {isLoading && <Loader />}
             <Sidebar modals={modals} handleModal={handleModal} />
             {
                 isMessageLoading ?
                     <div className="relative flex-1 z-0"><Loader /></div> :
-                    modals.isSelected ?
+                    modals.selected ?
                         <Messagebar
                             messages={messages}
                             modals={modals}
@@ -31,7 +31,7 @@ export default function Dashboard({ modals, handleModal }) {
                         /> :
                         <Starter txt={"Xabar yuborishni boshlash uchun suhbatni tanlang"} />
             }
-            {modals.userModal && <UserInfo modals={modals} handleModal={handleModal} />}
+            <UserInfo modals={modals} handleModal={handleModal} />
         </main>
     )
 }

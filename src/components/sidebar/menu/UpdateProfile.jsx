@@ -1,7 +1,7 @@
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
-import { authSuccess } from "../../redux/slice/authSlice";
-import service from "../../config/service";
+import { authSuccess } from "../../../redux/slice/authSlice";
+import service from "../../../config/service";
 import toast from "react-hot-toast";
 import { useState } from "react";
 
@@ -40,17 +40,17 @@ export default function UpdateProfile({ modals, handleModal, newAuth, setNewAuth
     }
 
     return (
-        <div className={`${modals.isUpdate ? "right-0 z-30" : "-right-full -z-30"} absolute top-0 size-full bg-primary transition-all duration-300`}>
-            <header className="w-full absolute top-0 flex items-center justify-between pt-2 pb-4 pl-4 bg-primary">
+        <div className={`${modals.update ? "right-0" : "-right-full"} absolute top-0 z-30 size-full bg-primary transition-all duration-300`}>
+            <header className="w-full absolute top-0 flex items-center justify-between mt-4 pb-4 pl-4 bg-primary">
                 <div className="flex items-center gap-8">
-                    <button onClick={() => handleModal("isUpdate", false)} className="text-2xl text-text transition-all hover:text-gray-500">
+                    <button onClick={() => handleModal("update", false)} className="text-2xl text-text transition-all hover:text-gray-500">
                         <HiOutlineArrowLeft />
                     </button>
                     <h1 className="text-xl text-text">Profilni tahrirlash</h1>
                 </div>
             </header>
 
-            <main className="flex flex-col items-center gap-4 py-6 mt-14">
+            <main className="flex flex-col items-center gap-4 py-6 mt-16">
                 <figure className="size-28 overflow-hidden rounded-full mb-6">
                     <img className="size-full object-cover" src={auth?.avatar} alt={auth?.fullname} />
                 </figure>

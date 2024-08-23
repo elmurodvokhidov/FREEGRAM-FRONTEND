@@ -21,15 +21,16 @@ export default function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [modals, setModals] = useState({
-    isSelected: null,
-    userModal: false,
+    selected: null,
+    user: false,
     menu: false,
-    searchBarModal: false,
+    searchbar: false,
     theme: "",
-    isArchive: false,
-    isSettings: false,
-    isUpdate: false,
+    archive: false,
+    settings: false,
+    update: false,
     privacy: false,
+    sidebar: false,
   });
 
   const handleModal = (modalName, value) => {

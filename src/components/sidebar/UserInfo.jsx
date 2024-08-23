@@ -7,13 +7,13 @@ export default function UserInfo({ modals, handleModal }) {
     const { user, active } = useSelector(state => state.user);
 
     return (
-        <div className="w-1/4 flex flex-col gap-4 relative shadow-xl z-20 px-4 py-3 bg-primary">
+        <div className={`${modals.user ? "right-0 lg:w-[400px]" : "-right-full lg:hidden"} w-full sm:w-[350px] absolute top-0 bottom-0 lg:static flex flex-col gap-4 shadow-xl z-20 px-4 py-4 bg-primary transition-all duration-300`}>
             <header className="flex items-center gap-8">
-                <button onClick={() => handleModal("userModal", !modals.userModal)} className="text-2xl text-text transition-all hover:text-gray-500"><HiOutlineXMark /></button>
+                <button onClick={() => handleModal("user", !modals.user)} className="text-2xl text-text transition-all hover:text-gray-500"><HiOutlineXMark /></button>
                 <h1 className="text-xl text-text">Foydalanuvchi ma'lumotlari</h1>
             </header>
 
-            <main className="flex flex-col items-center gap-4 py-6">
+            <main className="flex flex-col items-center gap-4 py-6 mt-2">
                 <figure className="size-28 overflow-hidden rounded-full">
                     <img className="size-full object-cover" src={user?.avatar} alt={user?.fullname} />
                 </figure>

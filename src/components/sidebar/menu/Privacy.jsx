@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { HiOutlineArrowLeft } from 'react-icons/hi2'
-import service from '../../config/service';
+import service from '../../../config/service';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
@@ -33,7 +33,7 @@ export default function Privacy({ modals, handleModal }) {
     }, [])
 
     return (
-        <div className={`${modals.privacy ? "right-0 z-40" : "-right-full -z-40"} absolute top-0 size-full bg-primary transition-all duration-300`}>
+        <div className={`${modals.privacy ? "right-0" : "-right-full"} absolute top-0 z-30 size-full bg-primary transition-all duration-300`}>
             <header className="w-full absolute top-0 flex items-center gap-8 mt-4 pb-4 pl-4 bg-primary">
                 <button onClick={() => handleModal("privacy", false)} className="text-2xl text-text transition-all hover:text-gray-500"><HiOutlineArrowLeft /></button>
                 <h1 className="text-xl text-text">Maxfiylik va xavfsizlik</h1>

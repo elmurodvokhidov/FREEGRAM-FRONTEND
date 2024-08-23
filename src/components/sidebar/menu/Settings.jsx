@@ -8,15 +8,15 @@ export default function Settings({ modals, handleModal, setNewAuth }) {
     const { active } = useSelector(state => state.user);
 
     const openUpdateProfileModal = () => {
-        handleModal("isUpdate", true);
+        handleModal("update", true);
         setNewAuth(auth);
     }
 
     return (
-        <div className={`${modals.isSettings ? "right-0 z-20" : "-right-full -z-20"} absolute top-0 size-full bg-primary transition-all duration-300`}>
-            <header className="w-full absolute top-0 flex items-center justify-between pt-2 pb-4 pl-4 bg-primary">
+        <div className={`${modals.settings ? "right-0" : "-right-full"} absolute top-0 z-20 size-full bg-primary transition-all duration-300`}>
+            <header className="w-full absolute top-0 flex items-center justify-between mt-4 pb-4 pl-4 bg-primary">
                 <div className="flex items-center gap-8">
-                    <button onClick={() => handleModal("isSettings", false)} className="text-2xl text-text transition-all hover:text-gray-500">
+                    <button onClick={() => handleModal("settings", false)} className="text-2xl text-text transition-all hover:text-gray-500">
                         <HiOutlineArrowLeft />
                     </button>
                     <h1 className="text-xl text-text">Sozlamalar</h1>
@@ -26,7 +26,7 @@ export default function Settings({ modals, handleModal, setNewAuth }) {
                 </button>
             </header>
 
-            <main className="flex flex-col items-center gap-4 py-6 mt-14">
+            <main className="flex flex-col items-center gap-4 py-6 mt-16">
                 <figure className="size-28 overflow-hidden rounded-full">
                     <img className="size-full object-cover" src={auth?.avatar} alt={auth?.fullname} />
                 </figure>

@@ -1,7 +1,7 @@
 import { CiLight, CiSettings } from "react-icons/ci";
 import { PiArchive, PiMoonStarsLight } from "react-icons/pi";
 
-export default function SidebarModal({ modals, handleModal }) {
+export default function Menu({ modals, handleModal }) {
 
     const handleToggleTheme = () => {
         if (modals.theme === "dark") {
@@ -15,12 +15,12 @@ export default function SidebarModal({ modals, handleModal }) {
     }
 
     return (
-        <div className="flex flex-col absolute left-4 top-14 p-2 shadow-lg rounded-lg backdrop-blur-3xl">
-            <button onClick={() => handleModal("isArchive", true)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
+        <div className="flex flex-col absolute left-4 top-16 p-2 shadow-lg rounded-lg backdrop-blur-3xl">
+            <button onClick={() => handleModal("archive", true)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
                 <span><PiArchive className="text-xl" /></span>
                 <span className="text-base">Arxiv chatlar</span>
             </button>
-            <button onClick={() => handleModal("isSettings", true)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
+            <button onClick={() => handleModal("settings", true)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
                 <span><CiSettings className="text-xl" /></span>
                 <span className="text-base">Sozlamalar</span>
             </button>
