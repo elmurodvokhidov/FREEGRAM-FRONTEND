@@ -49,8 +49,8 @@ export default function Login() {
     }, [isLoggedIn, navigate]);
 
     return (
-        <main onClick={() => dispatch(authFailure())} className="h-screen w-full absolute z-10 bg-primary transition-colors duration-300">
-            <div className="w-full flex flex-col items-center my-8 select-none">
+        <main onClick={() => dispatch(authFailure())} className="h-screen w-full absolute z-10 px-6 bg-primary transition-colors duration-300">
+            <div className="w-full flex flex-col items-center lg:mt-32 mt-24 my-8 select-none">
                 <ImTelegram className="text-center text-blue-700 text-9xl mb-4" />
                 <h1 className="text-center text-3xl text-text">Freegram hisobingizga kiring</h1>
             </div>
