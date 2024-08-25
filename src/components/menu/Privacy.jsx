@@ -21,6 +21,8 @@ export default function Privacy({ modals, handleModal }) {
                         color: "var(--text)"
                     },
                     duration: 3000,
+                    closeOnClick: true,
+                    pauseOnHover: true,
                 }
             );
         } catch (error) {

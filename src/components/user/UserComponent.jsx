@@ -98,15 +98,15 @@ export default function UserComponent({ modals, handleModal, search, setSearch, 
                 <div
                     onMouseEnter={() => setContextMenu({ ...contextMenu, visible: true })}
                     onMouseLeave={() => handleCloseContextMenu()}
-                    className="flex flex-col fixed left-4 top-16 p-2 shadow-lg rounded-lg backdrop-blur-3xl bg-none"
+                    className="flex flex-col fixed left-4 top-16 p-2 shadow-md rounded-lg backdrop-blur-3xl bg-none"
                     style={{ top: contextMenu.y, left: contextMenu.x }}
                 >
                     <button onClick={handleArchiveUser} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
-                        <span><PiArchive className="text-xl" /></span>
+                        <span><PiArchive className="text-base" /></span>
                         <span>Arxivlash</span>
                     </button>
                     <button onClick={() => handleModal("deleteduser", contextMenu.userId)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-red-500">
-                        <span><AiOutlineDelete className="text-xl" /></span>
+                        <span><AiOutlineDelete className="text-base" /></span>
                         <span>O'chirish</span>
                     </button>
                 </div>

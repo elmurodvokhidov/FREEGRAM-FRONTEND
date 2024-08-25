@@ -7,5 +7,7 @@ export const showErrorToast = (title) => {
       background: "var(--primary)",
       color: "var(--text)"
     },
+    closeOnClick: true,
+    pauseOnHover: true,
   });
 };

@@ -20,7 +20,7 @@ export default function DeleteUserModal({
                     <button onClick={() => handleModal("deleteduser", null)} className="uppercase px-3 py-1 rounded-lg text-blue-500 transition-colors duration-300 hover:bg-sender">
                         Bekor qilish
                     </button>
-                    <button onClick={submitFunction} className="uppercase px-3 py-1 rounded-lg text-red-500 transition-colors duration-300 hover:bg-red-100">
+                    <button onClick={submitFunction} className="uppercase px-3 py-1 rounded-lg text-red-500 transition-colors duration-300 hover:bg-[#ef444444]">
                         Chatni O'chirish
                     </button>
                 </div>

@@ -8,16 +8,8 @@ export default function Archive({ modals, handleModal }) {
                 <h1 className="text-xl text-text">Arxiv chatlar</h1>
             </header>
 
-            <section className="overflow-y-auto mt-16 px-2">
-                <div className="flex items-center gap-4 p-2 cursor-pointer rounded hover:bg-secondary transition-all">
-                    <img src="https://avatar.iran.liara.run/username?username=Zokir+Norboyev" alt="..." className="size-12 rounded-full bg-sender" />
-                    <div className="flex flex-col">
-                        <h4 className="text-base text-text">Zokir Norboyev</h4>
-                        <p className="text-sm text-gray-400">
-                            <span>offline</span>
-                        </p>
-                    </div>
-                </div>
+            <section className="overflow-y-auto mt-16 px-4">
+                <p className="text-gray-400 text-sm">This feature is coming soon… 🛠️📅</p>
             </section>
         </div>
     )

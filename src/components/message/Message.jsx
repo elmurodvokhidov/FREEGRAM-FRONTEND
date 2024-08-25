@@ -96,20 +96,20 @@ export default function Message({ msg, customRef, modals, handleModal }) {
                 {contextMenu.visible && (
                     <div
                         ref={menuRef}
-                        className="flex flex-col fixed left-4 top-16 z-10 p-2 shadow-lg rounded-lg backdrop-blur-3xl"
+                        className="flex flex-col fixed left-4 top-16 z-10 p-2 shadow-md rounded-lg backdrop-blur-3xl"
                         style={{ top: contextMenu.y, left: contextMenu.x }}
                     >
                         {isSender &&
                             <button onClick={handleUpdate} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
-                                <span><GoPencil className="text-xl" /></span>
+                                <span><GoPencil className="text-base" /></span>
                                 <span>Tahrirlash</span>
                             </button>}
                         <button onClick={() => handleCopy(msg?.message)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
-                            <span><MdContentCopy className="text-xl" /></span>
+                            <span><MdContentCopy className="text-base" /></span>
                             <span>Nusxa olish</span>
                         </button>
                         <button onClick={() => handleModal("deletedmsg", msg?._id)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-red-500">
-                            <span><AiOutlineDelete className="text-xl" /></span>
+                            <span><AiOutlineDelete className="text-base" /></span>
                             <span>O'chirish</span>
                         </button>
                     </div>

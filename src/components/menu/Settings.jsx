@@ -1,6 +1,6 @@
 import { GoInfo, GoLock, GoPencil } from "react-icons/go";
 import { HiOutlineArrowLeft } from "react-icons/hi2";
-import { MdOutlinePhone } from "react-icons/md";
+import { MdDevices, MdOutlinePhone } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 export default function Settings({ modals, handleModal, setNewAuth }) {
@@ -56,6 +56,10 @@ export default function Settings({ modals, handleModal, setNewAuth }) {
                 <button onClick={() => handleModal("privacy", true)} className="flex items-center gap-6">
                     <span><GoLock className="text-2xl text-gray-500" /></span>
                     <p className="text-text">Maxfiylik va xavfsizlik</p>
+                </button>
+                <button onClick={() => handleModal("devices", true)} className="flex items-center gap-6">
+                    <span><MdDevices className="text-2xl text-gray-500" /></span>
+                    <p className="text-text">Qurilmalar</p>
                 </button>
             </footer>
         </div>

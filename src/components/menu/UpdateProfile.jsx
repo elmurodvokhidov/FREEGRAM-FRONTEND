@@ -30,6 +30,8 @@ export default function UpdateProfile({ modals, handleModal, newAuth, setNewAuth
                         color: "var(--text)"
                     },
                     duration: 3000,
+                    closeOnClick: true,
+                    pauseOnHover: true,
                 }
             );
         } catch (error) {

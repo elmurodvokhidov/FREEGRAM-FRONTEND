@@ -1,8 +1,8 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Register from "./pages/Register";
+// import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import service from "./config/service";
 import { authSuccess } from "./redux/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ export default function App() {
   const { user, users } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentSelectedUserRef = useRef(null);
   const [modals, setModals] = useState({
     selected: null,
     user: false,
@@ -33,6 +34,7 @@ export default function App() {
     sidebar: false,
     deleteduser: null,
     deletedmsg: null,
+    devices: false,
   });
 
   const handleModal = (modalName, value) => {
@@ -75,6 +77,8 @@ export default function App() {
             color: "var(--text)"
           },
           duration: 7000,
+          closeOnClick: true,
+          pauseOnHover: true,
         }
       );
     };
@@ -89,6 +93,8 @@ export default function App() {
             color: "var(--text)"
           },
           duration: 7000,
+          closeOnClick: true,
+          pauseOnHover: true,
         }
       );
     };
@@ -101,6 +107,28 @@ export default function App() {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
+  }, []);
+
+  useEffect(() => {
+    function isMobile() {
+      return /Mobi|Android|iPad|iPhone/.test(navigator.userAgent) || window.innerWidth <= 768;
+    }
+
+    if (isMobile()) {
+      toast.error(
+        "Yaxshiroq tajriba uchun noutbukdan foydalaning.",
+        {
+          icon: "⚠",
+          style: {
+            background: "var(--primary)",
+            color: "var(--text)"
+          },
+          duration: 7000,
+          closeOnClick: true,
+          pauseOnHover: true,
+        }
+      );
+    }
   }, []);
 
   const getUsersFunction = async (delayedValue = "") => {
@@ -117,13 +145,13 @@ export default function App() {
   useEffect(() => {
     if (auth?._id) {
       const socket = io(baseURL, { query: { authId: auth?._id } });
-      const currentSelectedUser = user && user._id;
 
       socket.on("getActiveUsers", (activeUsers) => {
         dispatch(activeSuccess(activeUsers));
       });
 
       socket.on("getNewMessage", (data) => {
+        const currentSelectedUser = currentSelectedUserRef.current;
         if (currentSelectedUser === data.sender) {
           dispatch(messageSuccess({ data: data.newMessage, type: "push" }));
         } else {
@@ -135,12 +163,14 @@ export default function App() {
       });
 
       socket.on("messageDeleted", (data) => {
+        const currentSelectedUser = currentSelectedUserRef.current;
         if (currentSelectedUser === data.sender || currentSelectedUser === data.receiver) {
           dispatch(messageSuccess({ data: data.messageId, type: "pull" }));
         }
       });
 
       socket.on("conversationDeleted", (deletedUser) => {
+        const currentSelectedUser = currentSelectedUserRef.current;
         dispatch(userSuccess({ data: deletedUser, type: "pull" }));
         if (currentSelectedUser === deletedUser) {
           handleModal("selected", null);
@@ -155,7 +185,11 @@ export default function App() {
         socket.disconnect();
       };
     }
-  }, [auth, user, dispatch]);
+  }, [auth?._id]);
+
+  useEffect(() => {
+    currentSelectedUserRef.current = user && user._id;
+  }, [user]);
 
   return (
     <main className={modals.theme}>
