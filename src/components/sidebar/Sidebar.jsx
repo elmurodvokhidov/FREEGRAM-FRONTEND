@@ -1,15 +1,14 @@
 import { useState } from "react";
 import Searchbar from "./Searchbar";
-import SidebarFooter from "./SidebarFooter";
-import UserComponent from "./UserComponent";
+import UserComponent from "../user/UserComponent";
 import { IoIosMenu } from "react-icons/io";
-import Menu from "./menu/Menu";
-import Archive from "./menu/Archive";
-import Settings from "./menu/Settings";
-import UpdateProfile from "./menu/UpdateProfile";
-import Privacy from "./menu/Privacy";
+import Menu from "../menu/Menu";
+import Archive from "../menu/Archive";
+import Settings from "../menu/Settings";
+import UpdateProfile from "../menu/UpdateProfile";
+import Privacy from "../menu/Privacy";
 
-export default function Sidebar({ modals, handleModal }) {
+export default function Sidebar({ modals, handleModal, getUsersFunction }) {
     const [search, setSearch] = useState("");
     const [newAuth, setNewAuth] = useState({
         fullname: "",
@@ -36,8 +35,14 @@ export default function Sidebar({ modals, handleModal }) {
                 <Searchbar search={search} setSearch={setSearch} />
                 {modals.menu && <Menu modals={modals} handleModal={handleModal} />}
             </div>
-            <UserComponent modals={modals} handleModal={handleModal} search={search} />
-            <SidebarFooter />
+
+            <UserComponent
+                modals={modals}
+                handleModal={handleModal}
+                search={search}
+                setSearch={setSearch}
+                getUsersFunction={getUsersFunction}
+            />
         </main>
     )
 }

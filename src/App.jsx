@@ -10,14 +10,14 @@ import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import NotFound from "./pages/NotFound";
 import { io } from "socket.io-client";
-import { activeSuccess } from "./redux/slice/userSlice";
+import { activeSuccess, userEnd, userStart, userSuccess } from "./redux/slice/userSlice";
 import { messageSuccess } from "./redux/slice/messageSlice";
 import { NotificationToast } from "./utils/NotificationToast";
 import { baseURL } from "./config/api";
 
 export default function App() {
   const { auth } = useSelector(state => state.auth);
-  const { user } = useSelector(state => state.user);
+  const { user, users } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [modals, setModals] = useState({
@@ -31,6 +31,8 @@ export default function App() {
     update: false,
     privacy: false,
     sidebar: false,
+    deleteduser: null,
+    deletedmsg: null,
   });
 
   const handleModal = (modalName, value) => {
@@ -44,7 +46,7 @@ export default function App() {
           const { data } = await service.getCurrentAuth();
           dispatch(authSuccess(data));
         } catch (error) {
-          console.log(error);
+          throw new Error(error);
           navigate('/');
         }
       };
@@ -101,27 +103,59 @@ export default function App() {
     };
   }, []);
 
+  const getUsersFunction = async (delayedValue = "") => {
+    try {
+      dispatch(userStart());
+      const { data } = await service.getUsers(delayedValue);
+      dispatch(userSuccess({ data, type: "all" }));
+    } catch (error) {
+      dispatch(userEnd());
+      throw new Error(error);
+    }
+  }
+
   useEffect(() => {
     if (auth?._id) {
-      const socket = io(baseURL, { query: { authId: auth._id } });
+      const socket = io(baseURL, { query: { authId: auth?._id } });
+      const currentSelectedUser = user && user._id;
 
       socket.on("getActiveUsers", (activeUsers) => {
         dispatch(activeSuccess(activeUsers));
       });
 
-      socket.on("getNewMessage", (message) => {
-        toast.custom((t) => <NotificationToast t={t} message={message} />);
-        if (user && user._id !== message && message.sender && message.sender._id) return;
-        dispatch(messageSuccess({ data: message, type: "push" }));
+      socket.on("getNewMessage", (data) => {
+        if (currentSelectedUser === data.sender) {
+          dispatch(messageSuccess({ data: data.newMessage, type: "push" }));
+        } else {
+          toast.custom((t) => <NotificationToast t={t} message={data.newMessage} handleModal={handleModal} />);
+        }
+        if (!users.find(user => user._id === data.sender)) {
+          getUsersFunction();
+        }
+      });
+
+      socket.on("messageDeleted", (data) => {
+        if (currentSelectedUser === data.sender || currentSelectedUser === data.receiver) {
+          dispatch(messageSuccess({ data: data.messageId, type: "pull" }));
+        }
+      });
+
+      socket.on("conversationDeleted", (deletedUser) => {
+        dispatch(userSuccess({ data: deletedUser, type: "pull" }));
+        if (currentSelectedUser === deletedUser) {
+          handleModal("selected", null);
+        }
       });
 
       return () => {
         socket.off("getActiveUsers");
         socket.off("getNewMessage");
+        socket.off("messageDeleted");
+        socket.off("conversationDeleted");
         socket.disconnect();
       };
     }
-  }, [auth, dispatch]);
+  }, [auth, user, dispatch]);
 
   return (
     <main className={modals.theme}>
@@ -130,7 +164,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="*" element={<NotFound />} />
         {/* <Route path="/register" element={<Register />} /> */}
-        <Route path="/dashboard" element={<Dashboard modals={modals} handleModal={handleModal} />} />
+        <Route path="/dashboard" element={<Dashboard modals={modals} handleModal={handleModal} getUsersFunction={getUsersFunction} />} />
       </Routes>
     </main>
   )

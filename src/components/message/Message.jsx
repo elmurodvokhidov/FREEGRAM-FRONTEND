@@ -1,12 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { extractTime } from "../../config/extractTime";
 import { useState, useRef } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { GoPencil } from "react-icons/go";
 import { MdContentCopy } from "react-icons/md";
+import service from "../../config/service";
+import { messageSuccess } from "../../redux/slice/messageSlice";
+import DeleteMsgModal from "../modals/DeleteMsgModal";
 
-export default function Message({ msg, customRef }) {
+export default function Message({ msg, customRef, modals, handleModal }) {
     const { auth } = useSelector(state => state.auth);
+    const { user } = useSelector(state => state.user);
+    const dispatch = useDispatch();
     const isSender = auth?._id === msg?.sender?._id;
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, messageId: null });
     const menuRef = useRef(null);
@@ -55,45 +60,61 @@ export default function Message({ msg, customRef }) {
         handleCloseContextMenu();
     };
 
-    const handleDelete = () => {
-        console.log("deleted:", contextMenu.messageId);
-        handleCloseContextMenu();
+    const handleDeleteMsg = async () => {
+        try {
+            await service.deleteMessage(modals.deletedmsg);
+            const { data } = await service.getMessages(user?._id);
+            dispatch(messageSuccess({ data, type: "set" }));
+            handleModal("deletedmsg", null);
+            handleCloseContextMenu();
+        } catch (error) {
+            throw new Error(error);
+        }
     };
 
     return (
-        <div
-            onClick={handleCloseContextMenu}
-            onMouseLeave={handleCloseContextMenu}
-            onContextMenu={(e) => handleRightClick(e, msg?._id)}
-            ref={customRef}
-            className={`${isSender ? 'justify-end' : 'justify-start'} flex select-none`}
-        >
-            <div className={`${isSender ? 'bg-sender' : 'bg-primary'} max-w-md flex items-end gap-2 rounded-md px-4 py-2 shadow-md transition-colors duration-300`}>
-                <p className="text-text">{msg.message}</p>
-                <p className="text-xs text-gray-400 whitespace-nowrap">{extractTime(msg.createdAt)}</p>
-            </div>
+        <>
+            <DeleteMsgModal
+                foundUser={user}
+                modals={modals}
+                handleModal={handleModal}
+                submitFunction={handleDeleteMsg}
+            />
 
-            {contextMenu.visible && (
-                <div
-                    ref={menuRef}
-                    className="flex flex-col fixed left-4 top-16 z-10 p-2 shadow-lg rounded-lg backdrop-blur-3xl"
-                    style={{ top: contextMenu.y, left: contextMenu.x }}
-                >
-                    {isSender &&
-                        <button onClick={handleUpdate} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
-                            <span><GoPencil className="text-xl" /></span>
-                            <span>Tahrirlash</span>
-                        </button>}
-                    <button onClick={() => handleCopy(msg?.message)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
-                        <span><MdContentCopy className="text-xl" /></span>
-                        <span>Nusxa olish</span>
-                    </button>
-                    <button onClick={handleDelete} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-red-500">
-                        <span><AiOutlineDelete className="text-xl" /></span>
-                        <span>O'chirish</span>
-                    </button>
+            <div
+                ref={customRef}
+                onClick={handleCloseContextMenu}
+                onMouseLeave={handleCloseContextMenu}
+                onContextMenu={(e) => handleRightClick(e, msg?._id)}
+                className={`${isSender ? 'justify-end' : 'justify-start'} flex select-none`}
+            >
+                <div className={`${isSender ? 'bg-sender' : 'bg-primary'} max-w-md flex items-end gap-2 rounded-md px-4 py-2 whitespace-pre-wrap shadow-md transition-colors duration-300`}>
+                    <p className="text-text">{msg.message}</p>
+                    <p className="text-xs text-gray-400 whitespace-nowrap">{extractTime(msg.createdAt)}</p>
                 </div>
-            )}
-        </div>
+
+                {contextMenu.visible && (
+                    <div
+                        ref={menuRef}
+                        className="flex flex-col fixed left-4 top-16 z-10 p-2 shadow-lg rounded-lg backdrop-blur-3xl"
+                        style={{ top: contextMenu.y, left: contextMenu.x }}
+                    >
+                        {isSender &&
+                            <button onClick={handleUpdate} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
+                                <span><GoPencil className="text-xl" /></span>
+                                <span>Tahrirlash</span>
+                            </button>}
+                        <button onClick={() => handleCopy(msg?.message)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-text">
+                            <span><MdContentCopy className="text-xl" /></span>
+                            <span>Nusxa olish</span>
+                        </button>
+                        <button onClick={() => handleModal("deletedmsg", msg?._id)} className="flex items-center gap-4 px-4 py-1 rounded hover:bg-secondary transition-all text-red-500">
+                            <span><AiOutlineDelete className="text-xl" /></span>
+                            <span>O'chirish</span>
+                        </button>
+                    </div>
+                )}
+            </div>
+        </>
     );
 }

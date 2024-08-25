@@ -7,7 +7,7 @@ import { CiFaceSmile } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { messageSuccess } from "../../redux/slice/messageSlice";
 
-export default function MessageInput({ user, modals }) {
+export default function MessageInput({ user, modals, getUsersFunction }) {
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const textareaRef = useRef(null);
@@ -18,10 +18,11 @@ export default function MessageInput({ user, modals }) {
         try {
             const { data } = await service.sendMessage(message, user?._id);
             dispatch(messageSuccess({ data, type: "push" }));
-            setMessage("");
             textareaRef.current.style.height = "auto";
+            getUsersFunction();
+            setMessage("");
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     };
 

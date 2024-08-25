@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { HiOutlineArrowLeft } from 'react-icons/hi2'
-import service from '../../../config/service';
+import service from '../../config/service';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
@@ -24,7 +24,7 @@ export default function Privacy({ modals, handleModal }) {
                 }
             );
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     }
 

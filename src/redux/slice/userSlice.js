@@ -22,6 +22,14 @@ const UserSlice = createSlice({
             else if (action.payload.type === "one") {
                 state.user = action.payload.data;
             }
+            else if (action.payload.type === "pull") {
+                if (state.user && state.user._id === action.payload.data) {
+                    state.user = null;
+                }
+                state.users = state.users.filter(
+                    (user) => user._id !== action.payload.data
+                );
+            }
         },
         activeSuccess: (state, action) => {
             state.isLoading = false;

@@ -20,6 +20,11 @@ const MessageSlice = createSlice({
             else if (action.payload.type === "push") {
                 state.messages.push(action.payload.data);
             }
+            else if (action.payload.type === "pull") {
+                state.messages = state.messages.filter(
+                    (message) => message._id !== action.payload.data
+                );
+            }
         },
         messageEnd: (state) => {
             state.isMessageLoading = false;

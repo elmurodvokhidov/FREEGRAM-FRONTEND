@@ -1,7 +1,7 @@
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
-import { authSuccess } from "../../../redux/slice/authSlice";
-import service from "../../../config/service";
+import { authSuccess } from "../../redux/slice/authSlice";
+import service from "../../config/service";
 import toast from "react-hot-toast";
 import { useState } from "react";
 
@@ -33,7 +33,7 @@ export default function UpdateProfile({ modals, handleModal, newAuth, setNewAuth
                 }
             );
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         } finally {
             setIsLoading(false);
         }

@@ -40,6 +40,10 @@ const service = {
         const res = api.get(search ? `/users?search=${search}` : '/users');
         return res;
     },
+    async deleteUser(receiverId) {
+        const res = api.delete(`/users/${receiverId}`);
+        return res;
+    },
 
     // messages
     async getMessages(id) {
@@ -48,6 +52,10 @@ const service = {
     },
     async sendMessage(message, receiver) {
         const res = api.post(`/messages/${receiver}`, { message });
+        return res;
+    },
+    async deleteMessage(messageId) {
+        const res = api.delete(`/messages/${messageId}`);
         return res;
     },
 };
