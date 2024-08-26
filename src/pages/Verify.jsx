@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { authFailure, authStart, authSuccess } from "../redux/slice/authSlice";
 import service from "../config/service";
 import { GoPencil } from "react-icons/go";
-import { showErrorToast } from "../utils/CustomToasts";
+import { showToast } from "../utils/CustomToasts";
 
 export default function Verify({ setVerifyModal, newAuth }) {
     const { isLoading, isLoggedIn, isError } = useSelector(state => state.auth);
@@ -17,7 +17,7 @@ export default function Verify({ setVerifyModal, newAuth }) {
         e.preventDefault();
         if (code === "") {
             dispatch(authFailure({ type: "otp" }));
-            showErrorToast("Iltimos kod kiriting");
+            showToast("error", "Iltimos kod kiriting", "⚠", 1500);
 
         }
         else {
@@ -28,7 +28,7 @@ export default function Verify({ setVerifyModal, newAuth }) {
                 navigate('/dashboard');
             } catch (error) {
                 dispatch(authFailure(error?.response?.data));
-                showErrorToast(error?.response?.data?.message || error.message);
+                showToast("error", error?.response?.data?.message || error.message, "⚠", 1500);
             }
         }
     };

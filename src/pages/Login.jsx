@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { ImTelegram } from "react-icons/im";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { authFailure, authStart, authSuccess } from "../redux/slice/authSlice";
 import service from "../config/service";
-import { showErrorToast } from "../utils/CustomToasts";
+import { showToast } from "../utils/CustomToasts";
 
 export default function Login() {
     const { isLoading, isLoggedIn, isError } = useSelector(state => state.auth);
@@ -25,11 +25,11 @@ export default function Login() {
         e.preventDefault();
         if (newAuth.phoneNumber === "") {
             dispatch(authFailure({ type: "phone" }));
-            showErrorToast("Iltimos telefon raqam kiriting");
+            showToast("error", "Iltimos telefon raqam kiriting", "⚠", 1500);
         }
         else if (newAuth.password === "") {
             dispatch(authFailure({ type: "password" }));
-            showErrorToast("Iltimos parol kiriting");
+            showToast("error", "Iltimos parol kiriting", "⚠", 1500);
         }
         else {
             try {
@@ -39,7 +39,7 @@ export default function Login() {
                 navigate('/dashboard');
             } catch (error) {
                 dispatch(authFailure(error?.response?.data));
-                showErrorToast(error?.response?.data?.message || error.message);
+                showToast("error", error?.response?.data?.message || error.message, "⚠", 1500);
             }
         }
     };

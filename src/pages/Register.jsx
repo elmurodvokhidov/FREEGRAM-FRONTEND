@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { authFailure, authStart } from "../redux/slice/authSlice";
 import service from "../config/service";
 import Verify from "./Verify";
-import { showErrorToast } from "../utils/CustomToasts";
+import { showToast } from "../utils/CustomToasts";
 
 export default function Register() {
     const { isLoading, isLoggedIn, isError } = useSelector(state => state.auth);
@@ -29,27 +29,27 @@ export default function Register() {
         e.preventDefault();
         if (newAuth.fullname === "") {
             dispatch(authFailure({ type: "fullname" }));
-            showErrorToast("Iltimos ism kiriting");
+            showToast("error", "Iltimos ism kiriting", "⚠", 1500);
         }
         else if (newAuth.phoneNumber === "") {
             dispatch(authFailure({ type: "phone" }));
-            showErrorToast("Iltimos telefon raqam kiriting");
+            showToast("error", "Iltimos telefon raqam kiriting", "⚠", 1500);
         }
         else if (newAuth.password === "") {
             dispatch(authFailure({ type: "password" }));
-            showErrorToast("Iltimos parol kiriting");
+            showToast("error", "Iltimos parol kiriting", "⚠", 1500);
         }
         else {
             try {
                 dispatch(authStart());
                 await service.authRegister({ ...newAuth, phoneNumber: `998${newAuth.phoneNumber}` });
                 // setNewAuth(data);
-                showErrorToast("Xabar muvaffaqiyatli jo'natildi");
+                showToast("error", "Xabar muvaffaqiyatli jo'natildi", "⚠", 1500);
                 setVerifyModal(true);
                 dispatch(authFailure());
             } catch (error) {
                 dispatch(authFailure(error?.response?.data));
-                showErrorToast(error?.response?.data?.message || error.message);
+                showToast("error", error?.response?.data?.message || error.message, "⚠", 1500);
             }
         }
     };

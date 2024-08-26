@@ -4,10 +4,10 @@ import { userSuccess } from "../../redux/slice/userSlice";
 import service from "../../config/service";
 import { messageEnd, messageStart, messageSuccess } from "../../redux/slice/messageSlice";
 import { useDelay } from "../../hooks/useDelay";
-import { showErrorToast } from "../../utils/CustomToasts";
 import { PiArchive } from "react-icons/pi";
 import { AiOutlineDelete } from "react-icons/ai";
 import DeleteUserModal from "../modals/DeleteUserModal";
+import { showToast } from "../../utils/CustomToasts";
 
 export default function UserComponent({ modals, handleModal, search, setSearch, getUsersFunction }) {
     const { users, active, user } = useSelector(state => state.user);
@@ -30,7 +30,7 @@ export default function UserComponent({ modals, handleModal, search, setSearch, 
             setSearch("");
         } catch (error) {
             dispatch(messageEnd());
-            showErrorToast(error.message);
+            showToast("error", error.message, "⚠", 1500);
             throw new Error(error);
         }
     }

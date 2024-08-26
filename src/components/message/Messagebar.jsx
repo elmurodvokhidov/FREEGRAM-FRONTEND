@@ -27,7 +27,7 @@ export default function Messagebar({ messages, modals, handleModal, getUsersFunc
             {
                 messages.length ?
                     <section className="h-screen z-0 scrollbar-hide overflow-y-auto flex flex-col gap-1 px-4 pt-16 pb-[75px] bg-secondary  transition-colors duration-300">
-                        {messages.map((msg, ind) => <Message msg={msg} key={ind} customRef={lastMessageRef} modals={modals} handleModal={handleModal} />)}
+                        {messages.map((msg, ind) => <Message msg={msg} key={ind} customRef={lastMessageRef} />)}
                     </section>
                     : <Starter txt={"Xabar mavjud emas"} extraStyle={"top-[40%]"} />
             }

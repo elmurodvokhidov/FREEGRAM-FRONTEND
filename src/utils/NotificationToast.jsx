@@ -3,7 +3,7 @@ import { messageEnd, messageStart, messageSuccess } from "../redux/slice/message
 import { useDispatch } from "react-redux";
 import service from "../config/service";
 import { userSuccess } from "../redux/slice/userSlice";
-import { showErrorToast } from "./CustomToasts";
+import { showToast } from "./CustomToasts";
 
 export const NotificationToast = ({ t, message, handleModal }) => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ export const NotificationToast = ({ t, message, handleModal }) => {
             handleModal("sidebar", false);
         } catch (error) {
             dispatch(messageEnd());
-            showErrorToast(error.message);
+            showToast("error", error.message, "⚠", 1500);
             throw new Error(error);
         }
     }

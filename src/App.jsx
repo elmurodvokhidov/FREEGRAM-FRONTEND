@@ -14,6 +14,7 @@ import { activeSuccess, userEnd, userStart, userSuccess } from "./redux/slice/us
 import { messageSuccess } from "./redux/slice/messageSlice";
 import { NotificationToast } from "./utils/NotificationToast";
 import { baseURL } from "./config/api";
+import { showToast } from "./utils/CustomToasts";
 
 export default function App() {
   const { auth } = useSelector(state => state.auth);
@@ -33,13 +34,23 @@ export default function App() {
     privacy: false,
     sidebar: false,
     deleteduser: null,
-    deletedmsg: null,
     devices: false,
   });
 
   const handleModal = (modalName, value) => {
     setModals(prevState => ({ ...prevState, [modalName]: value }));
   };
+
+  const getUsersFunction = async (delayedValue = "") => {
+    try {
+      dispatch(userStart());
+      const { data } = await service.getUsers(delayedValue);
+      dispatch(userSuccess({ data, type: "all" }));
+    } catch (error) {
+      dispatch(userEnd());
+      throw new Error(error);
+    }
+  }
 
   useEffect(() => {
     if (Cookies.get("token")) {
@@ -68,41 +79,16 @@ export default function App() {
 
   useEffect(() => {
     const handleOnline = () => {
-      toast.success(
-        "Siz yana onlaynsiz!",
-        {
-          icon: "😊",
-          style: {
-            background: "var(--primary)",
-            color: "var(--text)"
-          },
-          duration: 7000,
-          closeOnClick: true,
-          pauseOnHover: true,
-        }
-      );
+      showToast("success", "Siz yana onlaynsiz!", "😊", 7000);
     };
 
     const handleOffline = () => {
-      toast.error(
-        "Siz oflaynsiz. Internet aloqangizni tekshiring.",
-        {
-          icon: "⚠",
-          style: {
-            background: "var(--primary)",
-            color: "var(--text)"
-          },
-          duration: 7000,
-          closeOnClick: true,
-          pauseOnHover: true,
-        }
-      );
+      showToast("error", "Siz oflaynsiz. Internet aloqangizni tekshiring.", "⚠", 7000);
     };
 
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
 
-    // Cleanup event listeners on component unmount
     return () => {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
@@ -115,32 +101,9 @@ export default function App() {
     }
 
     if (isMobile()) {
-      toast.error(
-        "Yaxshiroq tajriba uchun noutbukdan foydalaning.",
-        {
-          icon: "⚠",
-          style: {
-            background: "var(--primary)",
-            color: "var(--text)"
-          },
-          duration: 7000,
-          closeOnClick: true,
-          pauseOnHover: true,
-        }
-      );
+      showToast("error", "Yaxshiroq tajriba uchun noutbukdan foydalaning.", "⚠", 7000)
     }
   }, []);
-
-  const getUsersFunction = async (delayedValue = "") => {
-    try {
-      dispatch(userStart());
-      const { data } = await service.getUsers(delayedValue);
-      dispatch(userSuccess({ data, type: "all" }));
-    } catch (error) {
-      dispatch(userEnd());
-      throw new Error(error);
-    }
-  }
 
   useEffect(() => {
     if (auth?._id) {
